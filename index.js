@@ -6,7 +6,7 @@ const cors = require('cors');
 const mongoose = require('mongoose');
 const colors = require('colors');
 const blogRouter = require('./src/modules/blogs/blogRouter');
-
+const userROuter = require('./src/modules/users/userRouter');
 const port = process.env.PORT || 5000;
 
 /* middleware */
@@ -28,6 +28,7 @@ main();
 
 /* router handler  */
 app.use('/api/v1/blog', blogRouter);
+app.use('/api/v1/user', userROuter);
 
 app.listen(port, () => {
   console.log(`Example app listening on port ${port}`.yellow);

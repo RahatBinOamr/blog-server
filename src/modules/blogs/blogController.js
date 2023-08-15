@@ -21,7 +21,7 @@ exports.findBlogs = async (req, res) => {
   if (search) {
     query['$or'] = [
       { title: { $regex: search.toString(), $options: 'i' } },
-      { author: { $regex: search.toString(), $options: 'i' } },
+      { authorName: { $regex: search.toString(), $options: 'i' } },
       { category: { $regex: search.toString(), $options: 'i' } },
     ];
   }
@@ -34,7 +34,6 @@ exports.findBlogs = async (req, res) => {
   try {
     const blogs = await blogModel
       .find(query)
-      // @ts-ignore
       .sort({ [sortField]: sortOrder })
       .limit(Number(limit))
       .skip(Number(limit) * (Number(page) - 1));

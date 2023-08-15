@@ -23,15 +23,12 @@ const blogSchema = new mongoose.Schema(
     },
     authorName: {
       type: String,
-      required: true,
     },
     authorImage: {
       type: String,
-      required: true,
     },
     authorOccupation: {
       type: String,
-      required: true,
     },
   },
   { timestamps: true }
