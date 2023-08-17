@@ -26,10 +26,9 @@ exports.findBlogs = async (req, res) => {
     ];
   }
   if (category) {
-    query['category'] =
-      category.toString() || 'blog is not found !!! please share any blog';
+    query['category'] = category.toString() || {};
   }
-  const sortField = req.query.sortField || 'publicationDate';
+  const sortField = req.query.sortField || 'createdAt';
   const sortOrder = req.query.sortOrder === 'desc' ? 'asc' : 'desc';
   try {
     const blogs = await blogModel
@@ -39,9 +38,10 @@ exports.findBlogs = async (req, res) => {
       .skip(Number(limit) * (Number(page) - 1));
     const totalBlog = await blogModel.countDocuments(query);
     res.json({
-      blogs: blogs,
-      currentPage: Number(page),
+      total: totalBlog,
       totalPages: Math.ceil(totalBlog / Number(limit)),
+      currentPage: Number(page),
+      blogs: blogs,
     });
   } catch (error) {
     console.error(error);
@@ -71,7 +71,7 @@ exports.updateBlog = async (req, res) => {
       return res.status(404).json({ error: 'Blog not found' });
     }
 
-    res.json(updatedBlog);
+    res.json({ updatedBlog, status: 'success' });
     console.log(blogId, updates);
   } catch (error) {
     res.status(400).json({ error: error.message });
@@ -83,7 +83,7 @@ exports.deleteBlog = async (req, res) => {
     if (!deletedBlog) {
       return res.status(404).json({ error: 'blog not found' });
     }
-    res.json({ message: 'blog deleted successfully' });
+    res.json({ message: 'blog deleted successfully', status: 'success' });
   } catch (error) {
     res.status(400).json({ error: error.message });
   }

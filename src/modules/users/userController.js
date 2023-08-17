@@ -28,3 +28,14 @@ exports.createUserLogin = async (req, res) => {
     }
   });
 };
+exports.findAllUser = async (req, res) => {
+  try {
+    const user = await userModel.find({});
+    if (!user) {
+      return res.status(404).json({ error: 'blog not found' });
+    }
+    res.json(user);
+  } catch (error) {
+    res.status(400).json({ error: error.message });
+  }
+};
